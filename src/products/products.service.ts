@@ -1,5 +1,8 @@
 import { Injectable } from '@nestjs/common';
+import { v4 as uuidv4 } from 'uuid';
 import { db, Product } from '../db';
+import { CreateProductDTO } from './create-product.dto';
+
 
 @Injectable()
 export class ProductsService {
@@ -15,4 +18,11 @@ export class ProductsService {
   public deleteById(id: Product['id']): void {
     db.products = db.products.filter((p) => p.id !== id);
   }
+
+  public create(productData: CreateProductDTO): Product {
+    const newProduct = { ...productData, id: uuidv4() };
+    db.products.push(newProduct);
+    return newProduct;
+  }
+
 }
