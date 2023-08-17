@@ -11,7 +11,7 @@ export class OrdersService {
   }
 
   public getById(id: Order['id']): Order | null {
-    return db.orders.find((p) => p.id === id);
+    return db.orders.find((p) => p.id === id) || null;
   }
 
   public deleteById(id: Order['id']): void {

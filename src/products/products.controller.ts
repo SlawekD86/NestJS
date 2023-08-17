@@ -1,6 +1,6 @@
 import { Controller, Get, Param, Delete, Post, Put, Body, NotFoundException } from '@nestjs/common';
 import { ProductsService } from './products.service';
-import { CreateProductDTO } from './create-product.dto';
+import { CreateProductDTO } from './dtos/create-product.dto';
 import { UpdateProductDTO } from './dtos/update-product.dto';
 import { ParseUUIDPipe } from '@nestjs/common';
 
