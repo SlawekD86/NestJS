@@ -10,4 +10,8 @@ export class UpdateOrderDTO {
   @IsNotEmpty()
   @IsString()
   address: string;
+
+  @IsNotEmpty()
+  @IsString()
+  productId: string;
 }

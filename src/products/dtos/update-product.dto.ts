@@ -1,18 +1,13 @@
 import { Transform } from 'class-transformer';
-import { IsInt, IsNotEmpty, IsString, Length, Min } from 'class-validator';
+import { IsNotEmpty, IsString, Length } from 'class-validator';
 
 export class UpdateProductDTO {
   @IsNotEmpty()
-  @Length(10, 20)
+  @Length(1, 255)
   name: string;
 
   @IsNotEmpty()
-  @IsInt()
-  @Min(0)
-  price: number;
-
   @IsString()
-  @IsNotEmpty()
-  @Transform(({ value }) => (Array.isArray(value) ? value.join(', ') : ''))
+  @Transform(({ value }) => (Array.isArray(value) ? value.join(', ') : value))
   description: string;
 }
