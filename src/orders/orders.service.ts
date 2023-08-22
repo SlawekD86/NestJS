@@ -22,7 +22,7 @@ export class OrdersService {
     });
   }
 
-  public deleteById(id: string): Promise<Order> {
+  public deleteById(id: string): Promise<Order | null> {
     return this.prismaService.order.delete({
       where: { id },
     });
