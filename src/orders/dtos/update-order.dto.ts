@@ -14,4 +14,8 @@ export class UpdateOrderDTO {
   @IsNotEmpty()
   @IsString()
   productId: string;
+
+  @IsNotEmpty()
+  @IsString()
+  clientId: string;
 }

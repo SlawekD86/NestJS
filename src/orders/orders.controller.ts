@@ -1,8 +1,9 @@
 import { Controller, Get, Post, Delete, Put, Param, Body, NotFoundException } from '@nestjs/common';
 import { OrdersService } from './orders.service';
-import { Order } from '@prisma/client';
-import { CreateOrderDTO } from './dtos/create-order.dto'
-import { UpdateOrderDTO } from './dtos/update-order.dto'
+import { Order, Client } from '@prisma/client'; 
+import { CreateOrderDTO } from './dtos/create-order.dto';
+import { UpdateOrderDTO } from './dtos/update-order.dto';
+import { Prisma } from '@prisma/client';
 
 @Controller('orders')
 export class OrdersController {
@@ -22,7 +23,12 @@ export class OrdersController {
 
   @Post('/')
   async create(@Body() orderData: CreateOrderDTO): Promise<Order> {
-    return this.ordersService.create(orderData);
+    const orderInput: Prisma.OrderCreateInput = {
+      ...orderData,
+      product: { connect: { id: orderData.productId } },
+      client: { connect: { id: orderData.clientId } }, 
+    };
+    return this.ordersService.create(orderInput);
   }
 
   @Delete('/:id')
@@ -36,11 +42,15 @@ export class OrdersController {
   @Put('/:id')
   async updateById(
     @Param('id') id: string,
-    @Body() orderData: UpdateOrderDTO,
+    @Body() orderData: UpdateOrderDTO
   ): Promise<Order> {
     if (!(await this.ordersService.getById(id))) {
       throw new NotFoundException('Order not found');
     }
-    return this.ordersService.updateById(id, orderData);
+    const orderInput: Prisma.OrderUpdateInput = {
+      ...orderData,
+      client: { connect: { id: orderData.clientId } },
+    };
+    return this.ordersService.updateById(id, orderInput);
   }
 }
